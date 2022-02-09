@@ -1,116 +1,185 @@
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Basic Example — Networked-Aframe</title>
-    <meta name="description" content="Basic Example — Networked-Aframe">
 
-    
-    <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
-    <script src="https://unpkg.com/networked-aframe@^0.7.1/dist/networked-aframe.min.js"></script>
+<head>
+  <meta charset="utf-8">
+  <title>Basic Example — Networked-Aframe</title>
+  <meta name="description" content="Basic Example — Networked-Aframe">
 
-    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
-    <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
-    <script src="/js/spawn-in-circle.component.js"></script>
-  </head>
-  <body>
-    <a-scene networked-scene="
-      room: basic;
-      debug: true;
-    ">
-      <a-assets>
 
-        <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous">
-        <img id="sky" src="https://img.gs/bbdkhfbzkk/2048x2048,stretch/http://i.imgur.com/WqlqEkq.jpg" crossorigin="anonymous" />
+  <!-- <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script> -->
+  <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
+  <script src="https://unpkg.com/networked-aframe@^0.7.1/dist/networked-aframe.min.js"></script>
 
+  <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+  <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
+  <script src="/js/spawn-in-circle.component.js"></script>
+
+</head>
+
+<body>
+  <a-scene networked-scene="room: basic; debug: true;">
+    <a-assets>
+
+      <!-- <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous"> -->
+      <img 
+        id="sky" 
+        src="https://img.gs/bbdkhfbzkk/2048x2048,stretch/http://i.imgur.com/WqlqEkq.jpg"
+        crossorigin="anonymous" 
+      />
+      <img id="castle-groud" src="/public/img/castle-groud/castle_brick_02_red_diff_2k.jpg"/>
+      <img id="castle-groud-nrm" src="/public/img/castle-groud/castle_brick_02_red_disp_2k.png"/>
+      <img id="castle-groud-rough" src="/public/img/castle-groud/castle_brick_02_red_rough_2k.jpg"/>
+      <img id="Wall-light-brow" src="/public/img/Wall/leather_white_diff_2k.jpg"/>
+      <img id="brick-wall" src="/public/img/brick-wall/t_brick_floor_002_diffuse_2k.jpg"/>
+      <img id="earth" src="/public/img/earth/aerial_rocks_02_diff_2k.jpg"/>
+      <img id="earth-rough" src="/public/img/earth/aerial_rocks_02_rough_2k.jpg"/>
+      <img id="moon" src="/public/img/moon/snow_field_aerial_col_2k.jpg"/>
+      <img id="moon-rough" src="/public/img/moon/snow_field_aerial_rough_2k.jpg"/>
+      <img id="sun" src="/public/img/sun/sandstone_cracks_diff_2k.jpg"/>
+      <img id="sun-rough" src="/public/img/sun/sandstone_cracks_rough_2k.jpg"/>
+      <img id="the-mysterious" src="/public/img/Wall/Russo-da-copa.jpg"/>
+      <img id="ele-img" src="/public/img/elefantinho/carved_wooden_elephant_diff_2k.jpg"/>
+      <img id="ele-nrm" src="/public/img/elefantinho/carved_wooden_elephant_nor_gl_2k.exr"/>
+      <img id="ele-roug" src="/public/img/elefantinho/carved_wooden_elephant_rough_2k.exr"/>
         <!-- Templates -->
-
-        <!-- Avatar -->
-        <template id="avatar-template">
-          <a-entity class="avatar">
-            <a-sphere class="head"
-              color="#5985ff"
-              scale="0.45 0.5 0.4"
-              random-color
-            ></a-sphere>
-            <a-entity class="face"
-              position="0 0.05 0"
-            >
-              <a-sphere class="eye"
-                color="#efefef"
-                position="0.16 0.1 -0.35"
-                scale="0.12 0.12 0.12"
-              >
-                <a-sphere class="pupil"
-                  color="#000"
-                  position="0 0 -1"
-                  scale="0.2 0.2 0.2"
-                ></a-sphere>
-              </a-sphere>
-              <a-sphere class="eye"
-                color="#efefef"
-                position="-0.16 0.1 -0.35"
-                scale="0.12 0.12 0.12"
-              >
-                <a-sphere class="pupil"
-                  color="#000"
-                  position="0 0 -1"
-                  scale="0.2 0.2 0.2"
-                ></a-sphere>
-              </a-sphere>
-            </a-entity>
+      <!-- Avatar -->
+      <template id="avatar-template">
+        <a-entity class="avatar">
+          <a-sphere class="head" color="#5985ff" scale="0.45 0.5 0.4" random-color></a-sphere>
+          <a-entity class="face" position="0 0.05 0">
+            <a-sphere class="eye" color="#efefef" position="0.16 0.1 -0.35" scale="0.12 0.12 0.12">
+              <a-sphere class="pupil" color="#000" position="0 0 -1" scale="0.2 0.2 0.2"></a-sphere>
+            </a-sphere>
+            <a-sphere class="eye" color="#efefef" position="-0.16 0.1 -0.35" scale="0.12 0.12 0.12">
+              <a-sphere class="pupil" color="#000" position="0 0 -1" scale="0.2 0.2 0.2"></a-sphere>
+            </a-sphere>
           </a-entity>
-        </template>
-
-        <!-- /Templates -->
-      </a-assets>
-
-      <a-entity id="player"
-                camera
-                networked="template:#avatar-template;attachTemplateToLocal:false;"
-                position="0 1.6 0"
-                spawn-in-circle="radius:3"
-                wasd-controls
-                look-controls>
-        <a-sphere class="head"
-          visible="false"
-          random-color
-        ></a-sphere>
-      </a-entity>
-
-      <a-entity position="0 0 0"
-        geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0"
-        material="src: #grid; repeat: 10000 10000; transparent: true; metalness:0.6; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity>
-
-      <a-entity light="color: #ccccff; intensity: 1; type: ambient;" visible=""></a-entity>
-      <a-entity light="color: #ffaaff; intensity: 1.5" position="5 5 5"></a-entity>
-
-      <a-sky src="#sky" rotation="0 -90 0"></a-sky>
-      <a-entity id="particles" particle-system="preset: snow"></a-entity>
-    </a-scene>
-
-    <script>
-      // On mobile remove elements that are resource heavy
-      var isMobile = AFRAME.utils.device.isMobile();
-
-      if (isMobile) {
-        var particles = document.getElementById('particles');
-        particles.parentNode.removeChild(particles);
-      }
+        </a-entity>
+      </template>
+      <!-- /Templates -->
+    </a-assets>
+    <a-entity 
+      id="player" 
+      camera
+      networked="template:#avatar-template;attachTemplateToLocal:false;" 
+      position="0 1.6 0"
+      spawn-in-circle="radius:3" 
+      wasd-controls 
+      look-controls>
+      <a-sphere class="head" visible="false" random-color></a-sphere>
       
-      // Define custom schema for syncing avatar color, set by random-color
-      NAF.schemas.add({
-        template: '#avatar-template',
-        components: [
-          'position',
-          'rotation',
-          {
-            selector: '.head',
-            component: 'material',
-            property: 'color'
-          }
-        ]
-      });
-    </script>
-  </body>
+    </a-entity>
+    <!-- 
+      <a-entity position="0 0 0"
+        geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0" 
+        material="src: #woodfloor; repeat: 10000 10000; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity> -->
+    <a-plane
+      material="color:#ffffff; src: #castle-groud; repeat: 5 5 ; normal-map:#castle-groud-nrm; normal-texture-repeat: 5 5, roughness:#castle-groud-rough" 
+      rotation="-90 0 0" 
+      scale="10 10 1"
+      position="11 0 0">
+    </a-plane>
+    <a-entity light="color: #ccccff; intensity: 1; type: ambient;" visible=""></a-entity>
+    <a-entity light="color: #ffaaff; intensity: 1.5" position="5 5 5"></a-entity>
+    <a-sky src="#sky" rotation="0 -90 0"></a-sky>
+    <a-entity id="particles" particle-system="preset: snow"></a-entity>
+    <!-- Box 2:1 Panel | Parent Entity -->
+    <a-box 
+      color="#689F38"
+      side="double"
+      width="4"
+      height="2"
+      depth="0.2"
+      position="-2 2 -7" 
+      rotation="0 0 0"
+      scale="-1.3 2.3 1"
+    >
+      <!-- Circulo Cinza -->
+      <a-circle color="#333333" side="double" position="1 0.4 1" rotation="90 0 0" scale="1 1 18"></a-circle>
+    </a-box>
+    <!-- Circulo Amarelo -->
+    <a-circle color="#FFC107" side="double" position="-1 1 -6" scale="1 1 1"></a-circle>
+    <!-- Cilindro cinzento -->
+    <a-cylinder 
+      color="#1e788a"
+      height="2"
+      radius="2"
+      segments-radial="6"
+      open-ended="true"
+      side="double"
+      position="8 4 0" 
+      rotation="0 -90 90" 
+      scale="2 1 2"> <!-- escala Y (altura) Z (espessura) X (largura), pos Y (esc-dir) Z (altura) X (fr-traz) -->
+    </a-cylinder>
+    <!-- cubo verde oliva -->
+    <a-box color="#80bc3c" src="#brick-wall" width="4" height="4" depth="4" position="7 2.03 -12" rotation="0 -90 90"></a-box>
+    <!-- cubo vermelho -->
+    <a-box color="#bc3c3c" width="4" height="4" depth="4" position="10 2.03 -9" rotation="0 -90 90"></a-box>
+    <!-- cubo roxo -->
+    <a-box color="#8a1e74" src="#the-mysterious" position="-6 3 -4">
+      <a-animation attribute="rotation" to="0 360 0" repeat="indefinite" dur="5000" easing="linear"></a-animation>
+      <a-animation attribute="position" from="-6 3 -4" to="6 5 -4" repeat="indefinite" dur="5000" direction="alternate" easing="ease-out"></a-animation>
+      <a-animation attribute="scale" to="2 1 2" repeat = "indefitite" dur="2000" direction="alternate" easing="ease-out-bounce"></a-animation>
+      <a-animation attribute="scale" to="2 1 2" repeat = "indefitite" dur="2000" direction="alternate" easing="ease-out-bounce"></a-animation>
+      <a-animation attribute="material.color" from="#8a1e74" to="#5429ab" repeat="indefinite" dur="5000" direction="alternate" easing="ease-out"></a-animation>
+      <a-animation attribute="material.opacity" from="1" to="0.5" repeat="indefinite" dur="5000" direction="alternate" easing="ease-out"></a-animation>
+    </a-box>
+    <!-- interections cursor - click, mouseenter, mouseleave, mousedown, mouseup, fusing -->
+    <!-- cursor simples -->
+    <a-camera>
+      <a-entity cursor position="0 0 -1" scale="3.5 6 3.5" geometry="primitive: sphere; radius: 0.015" material="color: red; shader: flat; opacity: 0.5"></a-cursor>
+    </a-camera>
+    <!-- bola azul -->
+      <a-sphere color="#2c43f5" src="#earth" width="4" height="4" depth="4" position="0 5 0">
+        <a-animation attribute="rotation" to="0 360 0" repeat="indefinite" dur="5000" easing="linear"></a-animation>
+      </a-sphere>
+    <!-- bola branca -->
+      <a-entity position="0 6 0">
+        <a-animation attribute="rotation" to="0 -360 0" repeat="indefinite" dur="5000" easing="linear"></a-animation>
+        <a-sphere color="#11d184" src="#moon" position="2 0 0"></a-sphere>
+      </a-entity>
+    <!-- elefante 1 -->
+      <a-box color="#fff"
+        repeat="1 1"
+        position="-9 0.5 0"
+        width="4"
+        height="4"
+        depth="4"
+        event-set__rescol="_event: click; material.color: red">
+      </a-box>
+      <a-box color="#5429ab" src="#ele-img" repeat="1 1" normal-map="ele-nrm" normal-texture-repeat="1 1" normal-scale="1 -1" roughtness="ele-roug"  position="-9 0.5 5" width="4" height="4" depth="4"></a-box>
+      <a-box color="#11d184" src="#ele-img" repeat="1 1" normal-map="ele-nrm" normal-texture-repeat="1 1" normal-scale="1 -1" roughtness="ele-roug"  position="-9 0.5 -5" width="4" height="4" depth="4"></a-box>
+      <a-box color="#155cad" position="-9 5 0" event-set__enter="_event: mouseenter; material.color: #de0720"
+       event-set__leave="_event: mouseleave; material.color:#155cad"></a-box>
+      <a-box color="#155cad" position="-9 5 5"></a-box>
+      <a-box color="#155cad" position="-9 5 -5"></a-box>
+     </a-scene>
+
+  <script>
+    // On mobile remove elements that are resource heavy
+    var isMobile = AFRAME.utils.device.isMobile();
+
+    if (isMobile) {
+      var particles = document.getElementById('particles');
+      particles.parentNode.removeChild(particles);
+    }
+
+    // Define custom schema for syncing avatar color, set by random-color
+    NAF.schemas.add({
+      template: '#avatar-template',
+      components: [
+        'position',
+        'rotation',
+        {
+          selector: '.head',
+          component: 'material',
+          property: 'color'
+        }
+      ]
+    });
+  </script>
+</body>
+
 </html>
