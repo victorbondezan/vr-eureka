@@ -7,21 +7,28 @@
 
 
   <!-- <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script> -->
-  <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+  <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+  <script src="https://unpkg.com/super-hands@2.1.0/dist/super-hands.min.js"></script>
+  <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+  <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+  <script src="https://unpkg.com/aframe-animation-component@4.0.0/dist/aframe-animation-component.min.js"></script>
+  <script src="/public/img/aframe-stereo-component.min.js"></script>
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
   <script src="https://unpkg.com/networked-aframe@^0.7.1/dist/networked-aframe.min.js"></script>
 
   <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
   <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
   <script src="/js/spawn-in-circle.component.js"></script>
+ 
 
 </head>
 
 <body>
-  <a-scene networked-scene="room: basic; debug: true;">
-    <a-assets>
-
+  <!-- aula 28 Antialiasing, simplesmente "antialias= true", amenizando o efeito pixelizado em linhas diagonais em jogos -->
+  <a-scene antialias="true" networked-scene="room: basic; debug: true;">
+    
       <!-- <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous"> -->
       <img 
         id="sky" 
@@ -43,7 +50,27 @@
       <img id="ele-img" src="/public/img/elefantinho/carved_wooden_elephant_diff_2k.jpg"/>
       <img id="ele-nrm" src="/public/img/elefantinho/carved_wooden_elephant_nor_gl_2k.exr"/>
       <img id="ele-roug" src="/public/img/elefantinho/carved_wooden_elephant_rough_2k.exr"/>
-        <!-- Templates -->
+      <img id="trevel-1" src="/public/img/image-and-curved/travel-wallpaper.jpg"/>
+      <img id="trevel-2" src="/public/img/image-and-curved/trevel-wallpaper-2.jpg"/>
+      <img id="titan" src="/public/img/image-and-curved/titan.jpg"/>
+      <img id="drawn-sky" src="/public/img/sky/drawn-sky.jpg"/>
+      <img id="drawn-sky-2" src="/public/img/sky/drawn-sky-2.jpg"/>
+      <img id="panorama" src="/public/img/sky/Panorama-old-town.jpg"/>
+      <audio id="hellraser" src="/public/songs/mothorhead-Hellraiser.mp3"></audio>
+      <img id="play1" src="/public/img/buttons/bplay-1.jpeg">
+      <img id="pause1" src="/public/img/buttons/pause-1.jpg">
+      <video id="meh" src="/public/videos/videosupermeeh.mp4" loop="true"></video>
+      <img id="red-left" src="/public/img/image-and-curved/red-left.jpg">
+      <img id="blue-right" src="/public/img/image-and-curved/blue-right.jpg">
+      <a-asset-item id="lobim" src="/public/gltf-do-lobinho/Wolf-Blender-2.82a.gltf"></a-asset-item>
+      <a-asset-item id="lobim-textura" src="/public/gltf-do-lobinho/Material__wolf_col_tga_diffuse.jpeg"></a-asset-item>
+      <a-asset-item id="lobim-textura-juba" src="/public/gltf-do-lobinho/Material__wolf_col_tga_diffuse_jpeg.jpg"></a-asset-item>
+      <a-asset-item id="lobim-textura-juba-fur" src="/public/gltf-do-lobinho/fur__fella3_jpg_001_diffuse.png"></a-asset-item>
+      <a-asset-item id="lobim-textura-juba-fella" src="/public/gltf-do-lobinho/fella3_Kopie_7.png"></a-asset-item>  
+      <a-asset-item id="lobim-textura-juba-fur2" src="/public/gltf-do-lobinho/Fur_2.png"></a-asset-item>
+      <a-asset-item id="lobim-textura-juba-fur-alpha" src="/public/gltf-do-lobinho/Fur_Alpha_3.png"></a-asset-item>
+      <a-asset-item id="lobim-2" src="/public/gltf-do-lobinho/Wolf-Blender-2.82a.glb"></a-asset-item>   
+      <!-- Templates -->
       <!-- Avatar -->
       <template id="avatar-template">
         <a-entity class="avatar">
@@ -62,6 +89,7 @@
     </a-assets>
     <a-entity 
       id="player" 
+      user-height="5"
       camera
       networked="template:#avatar-template;attachTemplateToLocal:false;" 
       position="0 1.6 0"
@@ -76,7 +104,13 @@
         geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0" 
         material="src: #woodfloor; repeat: 10000 10000; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity> -->
     <a-plane
-      material="color:#ffffff; src: #castle-groud; repeat: 5 5 ; normal-map:#castle-groud-nrm; normal-texture-repeat: 5 5, roughness:#castle-groud-rough" 
+      material= 
+        "color:#ffffff;
+        src: #castle-groud; 
+        repeat: 5 5 ; 
+        normal-map:#castle-groud-nrm; 
+        normal-texture-repeat: 5 5, 
+        roughness:#castle-groud-rough" 
       rotation="-90 0 0" 
       scale="10 10 1"
       position="11 0 0">
@@ -97,7 +131,7 @@
       scale="-1.3 2.3 1"
     >
       <!-- Circulo Cinza -->
-      <a-circle color="#333333" side="double" position="1 0.4 1" rotation="90 0 0" scale="1 1 18"></a-circle>
+      <a-cylinder color="#333333" side="double" position="1 0.4 1" rotation="90 0 0" scale="0.5 1 12"></a-cylinder>
     </a-box>
     <!-- Circulo Amarelo -->
     <a-circle color="#FFC107" side="double" position="-1 1 -6" scale="1 1 1"></a-circle>
@@ -109,14 +143,11 @@
       segments-radial="6"
       open-ended="true"
       side="double"
-      position="8 4 0" 
+      position="8 4 7" 
       rotation="0 -90 90" 
-      scale="2 1 2"> <!-- escala Y (altura) Z (espessura) X (largura), pos Y (esc-dir) Z (altura) X (fr-traz) -->
+      scale="2 1 2"> <!-- escala Y (altura) Z (espessura) X (largura), pos Y (esc-dir) Z (altura) X (fr-traz) 11 para torre -->
     </a-cylinder>
-    <!-- cubo verde oliva -->
-    <a-box color="#80bc3c" src="#brick-wall" width="4" height="4" depth="4" position="7 2.03 -12" rotation="0 -90 90"></a-box>
-    <!-- cubo vermelho -->
-    <a-box color="#bc3c3c" width="4" height="4" depth="4" position="10 2.03 -9" rotation="0 -90 90"></a-box>
+    <!-- Aula 14 - animando objetos (167 a 176 e 139 a 147) -->
     <!-- cubo roxo -->
     <a-box color="#8a1e74" src="#the-mysterious" position="-6 3 -4">
       <a-animation attribute="rotation" to="0 360 0" repeat="indefinite" dur="5000" easing="linear"></a-animation>
@@ -127,36 +158,460 @@
       <a-animation attribute="material.opacity" from="1" to="0.5" repeat="indefinite" dur="5000" direction="alternate" easing="ease-out"></a-animation>
     </a-box>
     <!-- interections cursor - click, mouseenter, mouseleave, mousedown, mouseup, fusing -->
-    <!-- cursor simples -->
-    <a-camera>
-      <a-entity cursor position="0 0 -1" scale="3.5 6 3.5" geometry="primitive: sphere; radius: 0.015" material="color: red; shader: flat; opacity: 0.5"></a-cursor>
-    </a-camera>
-    <!-- bola azul -->
-      <a-sphere color="#2c43f5" src="#earth" width="4" height="4" depth="4" position="0 5 0">
+    <!-- cursor simples, fuse true.. -->
+      <a-camera stereocam="eye: right">
+          <a-entity
+            cursor="fuse: false; fuseTimeout: 1500" 
+            cursor position= "0 0 -1" 
+            scale="1.7 3 1.7" 
+            geometry="primitive: sphere; radius: 0.015" 
+            material="color: red; shader: flat; opacity: 0.5">
+          <a-cursor raycaster="objects: .ui"></a-cursor>
+          <a-animation
+            attribute="scale"
+            to="3.5 6 3.5"
+            dur="1500"
+            begin="cursor-fusing"
+            fill="backwards"
+            easing="linear">
+          </a-animation>
+        </a-cursor>
+      </a-camera>
+      <!-- Aula 14 - animando objetos (167 a 176 e 139 a 147) -->
+      <!-- bola azul -->
+      <a-sphere color="#2c43f5" src="#earth" width="4" height="4" depth="4" position="-20 5 0">
         <a-animation attribute="rotation" to="0 360 0" repeat="indefinite" dur="5000" easing="linear"></a-animation>
       </a-sphere>
-    <!-- bola branca -->
-      <a-entity position="0 6 0">
+      <!-- bola branca -->
+      <a-entity position="-20 6 0">
         <a-animation attribute="rotation" to="0 -360 0" repeat="indefinite" dur="5000" easing="linear"></a-animation>
         <a-sphere color="#11d184" src="#moon" position="2 0 0"></a-sphere>
       </a-entity>
-    <!-- elefante 1 -->
-      <a-box color="#fff"
+      <!-- aula 18 Event-Set Component (176 a 238)-->
+      <!-- big box center -->
+      <a-box
+        id="big-box-center" 
+        color="#fff"
         repeat="1 1"
-        position="-9 0.5 0"
+        position="-30 0.5 0"
         width="4"
         height="4"
         depth="4"
-        event-set__rescol="_event: click; material.color: red">
+        event-set__respos="_event: click; position: -30 0.5 0">
       </a-box>
-      <a-box color="#5429ab" src="#ele-img" repeat="1 1" normal-map="ele-nrm" normal-texture-repeat="1 1" normal-scale="1 -1" roughtness="ele-roug"  position="-9 0.5 5" width="4" height="4" depth="4"></a-box>
-      <a-box color="#11d184" src="#ele-img" repeat="1 1" normal-map="ele-nrm" normal-texture-repeat="1 1" normal-scale="1 -1" roughtness="ele-roug"  position="-9 0.5 -5" width="4" height="4" depth="4"></a-box>
-      <a-box color="#155cad" position="-9 5 0" event-set__enter="_event: mouseenter; material.color: #de0720"
-       event-set__leave="_event: mouseleave; material.color:#155cad"></a-box>
-      <a-box color="#155cad" position="-9 5 5"></a-box>
-      <a-box color="#155cad" position="-9 5 -5"></a-box>
-     </a-scene>
-
+      <!-- big box left -->
+      <a-box
+        id="big-box-left" 
+        color="#5429ab" 
+        src="#ele-img" 
+        repeat="1 1" 
+        normal-map="#ele-nrm" 
+        normal-texture-repeat="1 1" 
+        normal-scale="1 -1" 
+        roughtness="#ele-roug" 
+        position="-30 0.5 5" 
+        width="4" 
+        height="4"
+        depth="4"
+        visible="false"
+        event-set__resvis="_event: click; visible: false">
+      </a-box>
+      <!-- big box right -->
+      <a-box
+        id="big-right-box" 
+        color="#08c44a" 
+        position="-30 0.5 -5" 
+        width="4" 
+        height="4" 
+        depth="4"
+        event-set__rescol="_event: click; material.color: #08c44a">
+      </a-box>
+      <!-- small box blue center -->
+      <a-box
+        color="#155cad" 
+        position="-30 5 0" 
+        event-set__enter="_event: mouseenter; material.color: #3fe2e8"
+        event-set__leave="_event: mouseleave; material.color:#155cad"
+        event-set__tarpos="_event: click; _target: #big-box-center; position: -36 0.5 0">
+      </a-box>
+       <!-- small box blue left -->
+      <a-box 
+        color="#155cad"
+        position="-30 5 5"
+        event-set__enter="_event: mouseenter; material.color: #3fe2e8"
+        event-set__leave="_event: mouseleave; material.color:#155cad"
+        event-set__tarcol="_event: click; _target:#big-box-left; visible: true">
+      </a-box>
+       <!-- small box blue right -->
+      <a-box 
+        color="#155cad"
+        position="-30 5 -5" 
+        event-set__enter="_event: mouseenter; material.color: #3fe2e8"
+        event-set__leave="_event: mouseleave; material.color:#155cad"
+        event-set__tarcol="_event: click; _target: #big-right-box; material.color:#3fe2e8">
+      </a-box>
+      <!-- Aula 21 - Controles baseados em interações (241 a 278) -->
+      <a-entity progressive-controls></a-entity>
+      <!-- console box -->
+      <a-box
+        id="screen"
+        color="#8a89b3"
+        position="15.000 3.3 -17.886"
+        scale="0.4 3 3.5"
+        hoverable event-set__rescol="_event:click;color:#8a89b3">
+      </a-box>
+      </a-box>
+      <!-- button box left -->
+      <a-box
+        color="#8a89b3"
+        position="15 1 -19.834"
+        scale="0.2 1 1.5"
+        hoverable event-set__enter="_event: hover-start; color: #3fe2e8"
+        event-set__leave="_event: hover-end; color:#8a89b3"
+        event-set__tarcol="_target: #screen; _event: click; color: #3fe2e8">
+      </a-box>
+      <!-- put box center -->
+      <a-box
+        color="#8a89b3"
+        position="15 1 -17.949"
+        scale="0.2 1 1.5"
+        hoverable event-set__enter="_event: hover-start; color: #120de0"
+        event-set__leave="_event: hover-end; color:#8a89b3"
+        event-set__tarcol="_target: #screen; _event: click; color: #120de0">
+      </a-box>
+      <!-- put box right -->
+      <a-box
+        color="#8a89b3"
+        position="15 1 -16.084"
+        scale="0.2 1 1.5"
+        hoverable event-set__enter="_event: hover-start; color: #d42044"
+        event-set__leave="_event: hover-end; color:#8a89b3"
+        event-set__tarcol="_target: #screen; _event: click; color: #d42044">
+      </a-box>
+      <!-- aula 8 imagens curvadas -->
+      <!-- metodo para aumentar o tamanho das imagens e curva-las sem perder qualidade ou desfigura-las  -->
+      <!-- * Imagem de 1024x768px -> imagem em px para 1 metro?
+	        - altura (m) = largura (m) p/ imagem -> largura x altu (px) = 
+          "1 1 1" -> 1 ( <- largura descidida) dividido / 1024 x 768 = a 	altura
+          1 / 1024 = 0,0009765625 * 768 = 0,75 (altura sugerida para a imagem quando quero 1 largura)
+        -->
+      <a-image 
+        src="#trevel-1"
+        position="12 1.5 -3"
+        width="1"
+        height="0.75"
+        scale="3 3 1">
+      </a-image>
+      <!-- calculando curvatura para nao estragar a imagem 
+        qual o raio? largura = 1 metro. comprimento = 1.111 m. angulo de 90 deg
+        qual altura da imagem em metros? largura (m) / largura (px) * altura (px) 
+        link do site que calcula outro fatores https://www.handymath.com/cgi-bin/arc18.cgi?submit=Entry, dia 4-->
+        <!-- Center ample Image  -->
+      <a-curvedimage
+        src="#trevel-1"
+        theta-length="90"
+        theta-start="135"
+        radius="0.707"
+        height="0.833"
+        position="12 1.5 0"
+        scale="3 3 3">
+      </a-curvedimage>
+      <!-- Right Image -->
+      <a-curvedimage
+        src="#trevel-1"
+        theta-length="50"
+        theta-start="90"
+        radius="0.5"
+        height="0.327"
+        position="12 1.5 0"
+        scale="3 3 3">
+      </a-curvedimage>
+      <!-- Little center image -->
+      <a-curvedimage 
+        src="#trevel-1"
+        theta-length="50"
+        theta-start="155"
+        radius="0.5"
+        height="0.327"
+        position="12 1.5 0"
+        scale="3 3 3">   
+      </a-curvedimage>
+      <!-- Left image -->
+      <a-curvedimage
+        src="#trevel-1"
+        theta-length="50"
+        theta-start="220"
+        radius="0.5"
+        height="0.327"
+        position="12 1.5 0"
+        scale="3 3 3">
+      </a-curvedimage>
+      <a-box
+        color="red"
+        opacity="0.5"
+        width="3"
+        height="0.1"
+        depth="3"
+        position="12 1.5 -0.5">
+      </a-box>
+      <!--image in window  -->
+      <a-curvedimage
+        src="#titan"
+        theta-length="90"
+        theta-start="310"
+        radius="0.707"
+        height="0.833"
+        position="8 5.5 -24"
+        scale="80 80 80">
+      </a-curvedimage>
+      <a-cone material color="#ffff"position="7 1.5 7"heigh="1.5"></a-cone>
+      <a-entity geometry="primitive cone height: 1.5" material="shader standart; color: brown" position="9 1.5 7"></a-entity>
+      <a-entity 
+        geometry="primitive: cylinder; theta-length: 90; theta-start: 310; radius:0.707; height: 0.833 open-ended: true"
+        material="shader: flat; color: #ffff; side:double; src: #titan"
+        position="8 5.5 -22"
+        scale="80 80 80">
+      </a-entity>
+      <!-- aula 11 Sky e 360 (367 a 372) -->
+      <!-- Little Planet drawn -->
+      <a-sky src="#drawn-sky-2" radius="8" side="double" position="86.972 0 -91.484"></a-sky>
+      <a-plane src="#sun" position="87.285 0 -92.833" scale="20 20 1" rotation="-90 0 0"></a-plane>      
+      <!-- Little Panorama -->
+      <a-sky src="#panorama" radius="20" side="double" position="0 0 -142.872"></a-sky>
+      <!-- aula 25 add videos -->
+      <!-- video ryu x ken -->
+      <a-video src="#meh" width="4" height="2.5" position="-0.832 2.658 -18.630" scale="1.195 1.114 1.000" rotation="0 90 0">
+          <!-- play-pause -->
+          <!-- <a-image id="videoControls" src="#play1" position="0 -3 0" scale="0.5 0.5 1" play1-pause1></a-image>  -->
+        </a-video>
+        <!-- play-pause -->
+        <!-- <a-image id="videoControls" src="#play1" position="0 -3 0" scale="0.5 0.5 1" play1-pause1></a-image>  -->
+      </a-video>
+      <!-- video aula 27 implanting Stereoscopic images (nos screepts tem uma tag "img/aframe-stereo-component.min.js")  -->
+      <a-image src="#red-left" position="14 1.5 0" height="0.75"></a-image> stereo="eye: left"
+      <a-image src="#blue-right" position="14 1.5 0" height="0.75" stereo="eye: right"></a-image>
+      <!-- Video aula 24 reprodusindo e posicionando música  -->
+      <!-- music player -->
+      <a-box
+        color="#8a1e74"
+        height="1.5"
+        position="12 0.5 0"      
+        sound="scr: #hellraser; on: click; volume: 1; refdistance: 4 rollofffactor: 4">
+      </a-box>
+      <!-- Shelf -->
+      <a-box
+        color="green"
+        height="8.5"
+        position="1.447 2.385 -24.598"
+        scale="2.9 0.047 2.119"
+        rotation="0.927 -138.369 0.172">
+      </a-box>
+      <!-- Video aula 31 escrevendo mensagens no espaço virtual (visible false)-->
+      <!-- text -->
+      <a-entity
+        scale="1.5 3 1.5"
+        position="12 1.5 2"
+        rotation="0 -90 0"
+        text="
+          value: \nEi Tiaago me ajuda com umas parada ai!\nto criando minha propria estacao espacial com jogos e...101001100101010001011000\n01 04 717 1789 la revolucion;
+          color: white;
+          align: center;
+          width: 1;
+          font: http://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/cabin/Cabin-Medium.json;
+          shader:msdf"
+        geometry="primitive: plane; width: auto; height: auto"
+        material="color: #8a1e74; shader: flat; visible: true"
+        event-set__enter="_event: mouseenter; textcolor: black"
+        event-set__leave="_event: mouseleave; textcolor: white">
+      </a-entity>
+      <!-- Placeholder -->
+      <a-box color="#FFAA00" position="12 0.5 2" rotation="90 0 0"></a-box>
+      <!-- Aula 13 - colocando objetos 3D dentro do ambiente virtual () -->
+      <a-entity 
+        gltf-model="#lobim"
+        position="19.098 0.268 -1.151"
+        src="#lobim-textura"
+        materia=
+          "normal-map:#lobim-textura-juba;
+          normal-map:#lobim-textura-juba-fur;
+          normal-map:#lobim-textura-juba-fella;
+          normal-map:lobim-textura-juba-fur2;
+          src:#lobim-textura-juba-fur-alpha;"
+        src="#lobim-2"
+        scale="3 3 3">
+      </a-entity>
+      <!-- Aula 29 animações semanticas/ ou sincronia entre animações -->
+      <!-- Button Yellow -->
+      <!-- original das linhas 455 e 456 event-set__enter="event: mouseenter; material.color: #1bc918"
+                                         event-set__leave="event: mouseleave; material.color: #c92418" -->
+      <a-box
+        id="orange"
+        color="yellow"
+        height="8.5"
+        position="8 0.5 -25"
+        class="ui"
+        scale="0.5 0.07 0.5"
+        rotation="0.917 89.782 0.172"
+        hoverable event-set__enter="_event: hover-start; color: #d16919"
+        event-set__leave="_event: hover-end; color:yellow"
+        event-set__scale="_target: #blue; _event: click; scale: 5 2 0.1"
+        event-set__position="_target: #grey; _event: click; position: 8 1.8 -25">
+      </a-box>
+      <!-- Hidden Button  -->
+      <a-box 
+      id="blue"
+      color="#8a1e74"
+      height="1.5"
+      position="8 3.5 -25"
+      opacity="1"
+      rotation="0 0 0">
+    </a-box>
+    <!-- Purple Box -->
+    <!-- original das linhas 479 e 480  event-set__enter="event: mouseenter; material.color: #0972eb"
+                                        event-set__leave="event: mouseleave; material.color: #3fe2e8" -->
+      <a-plane
+      id="grey"
+      color="#3fe2e8"
+      position="8 3 -25"
+      class="ui"
+      scale="0.75 0.5 0.75"
+      rotation="0.917 0 0.172"
+      hoverable event-set__enter="_event: hover-start; color: #0972eb"
+      event-set__leave="_event: hover-end; color:#3fe2e8"
+      event-set__position="_event: click; position.to: 8 3 -25"
+      event-set__scale="_target: #blue; _event: click; scale: 1 1 1">
+      </a-plane>
+      <!-- Aula 30 componentes animados -->
+      <a-box
+        id="orange2"
+        color="#e03f1f"
+        height="8.5"
+        position="1.97772 2.91186 -25.06336"
+        class="ui"
+        scale="0.5 0.07 0.5"
+        rotation="0.9167324722093172 134.93442554228452 0.17188733853924698"
+        animation__enter=
+          "property: material.color; 
+          from: #e03f1f; 
+          to: #e0bd1f;
+          startEvents: mouseenter;
+          dur: 250;
+          easing: linear"
+        animation__leave=
+          "property: material.color; 
+          from: #e0bd1f; 
+          to: #e03f1f;
+          startEvents: mouseleave;
+          dur: 250;
+          easing: linear"
+        event-set__scale=
+          "_target:#blue2;
+           _evente: click
+          animation.property:scale;
+          animation.to: 5 2 0.1;
+          animation.easing: easeInOutBack;
+          animation.dur: 1000"
+        event-set__position="_target:#gray2; _event:click; animation.property: position; animation.to: 2.379 5.26 -25.122">
+      </a-box>
+      <!-- Hidden Button  -->
+      <a-box
+      id="blue2"
+      color="#8a1e74"
+      height="1.5"
+      position="1.08407 3.39531 -23.92714"
+      opacity="1"
+      rotation="">
+      </a-box>
+      <!-- Purple Box -->
+      <a-plane
+        id="grey2"
+        color="#3fe2e8"
+        position="1.57474 3 -23.85645"
+        class="ui"
+        scale="0.75 0.5 0.75"
+        rotation="0.917 0 0.172"
+        animation__enter=
+          "property: material.color; 
+          from: #3fe2e8; 
+          to: #1fe03c;
+          startEvents: mouseenter;
+          dur: 250;
+          easing: linear"
+        animation__leave=
+          "property: material.color; 
+          from: #1fe03c; 
+          to: #3fe2e8;
+          startEvents: mouseleave;
+          dur: 250;
+          easing: linear"
+        event-set__scale=
+          "_target:#blue2;
+          _evente: click
+          animation.to: ;
+          animation.easing: easeInOutBack;
+          animation.dur: 250"
+        event-set__position="_event:click; animation.to: ;animation.dur: 1500">
+      </a-plane>
+      <!-- Aula 15 - aprendendo a usar a-frame inspector, game maker do a-frame -->
+      <!-- estrutura -->
+      <a-box
+        color="red"
+        height="8.5"
+        position="-24.282 -1.619 -0.224"
+        scale="10.717 1.801 2.119"
+        rotation="0.917 89.782 0.172">
+      </a-box>
+      <a-cylinder color="#1e788a" height="2" radius="2" segments-radial="6" open-ended="true" side="double" position="7.073 1.378 -7.445" rotation="0 -90.01166961505233 90.01166961505233" scale="1.207 2.550 1.116"></a-cylinder>
+      <a-box color="green" height="8.5" position="12.271 2.98 -9.101" scale="5.818 0.911 2.119" rotation="0.9167324722093172 0.17188733853924698 0.17188733853924698"></a-box>
+      <a-box color="red" height="8.5" position="15.381 3.002 -11.236" scale="4.715 0.911 2.119" rotation="0.9167324722093172 -121.35246100870836 0.17188733853924698"></a-box>
+      <a-box color="green" height="8.5" position="16.4 3.006 -18.1" scale="10.717 0.911 2.119" rotation="0.917 89.782 0.172"></a-box>
+      <a-box color="red" height="8.5" position="14.313 3.002 -25.543" scale="7.239 0.911 2.119" rotation="0.9167324722093172 129.48846169956605 0.17188733853924698"></a-box>
+      <a-box color="green" height="8.5" position="7.459 2.98 -28.114" scale="10.717 0.911 2.119" rotation="0.9167324722093172 0.17188733853924698 0.17188733853924698"></a-box>
+      <a-box color="red" height="8.5" position="0.267 3.083 -25.852" scale="7.239 0.911 2.119" rotation="0.917 -138.369 0.172"></a-box>
+      <a-box color="green" height="8.5" position="-2.131 3.131 -18.9" scale="10.717 0.911 2.119" rotation="0.917 89.782 0.172"></a-box>
+      <a-box color="red" height="8.5" position="-0.989 3.002 -12.144" scale="4.715 0.911 2.119" rotation="0.9167324722093172 -58.61358244188321 0.17188733853924698"></a-box>
+      <a-box color="green" height="8.5" position="1.902 2.98 -9.617" scale="5.818 0.911 2.554" rotation="0.9167324722093172 0.17188733853924698 0.17188733853924698"></a-box>
+      <a-cylinder color="#1e788a" height="2" radius="2" segments-radial="6" open-ended="true" side="double" position="7.618 10.769 -18.809" rotation="0 -90.012 179.508" scale="1.588 2.902 1.529"></a-cylinder>
+      <a-cylinder color="#1e788a" height="2" radius="2" segments-radial="6" open-ended="true" side="double" position="7.185 -5.793 -18.766" rotation="0 -90.01166961505233 179.5076772144869" scale="2.006 2.418 1.717"></a-cylinder>      <a-box color="red" height="8.5" position="7.302 5.699 -9.823" scale="5.818 0.479 2.119" rotation="0.9167324722093172 0.17188733853924698 0.17188733853924698"></a-box>
+      <a-box color="red" height="8.5" position="7.254 -2.767 -9.621" scale="5.818 0.479 2.119" rotation="0.917 0.172 0.172"></a-box> 
+      <!-- diagonal baixa -->
+      <a-box color="blue" height="8.5" position="7.794 -3.745 -25.929" scale="10.717 0.911 2.119" rotation="58.49899088285704 179.9087476710785 -0.2291831180523293" material="" geometry=""></a-box>
+      <a-box color="blue" height="8.5" position="-0.017 -3.745 -18.309" scale="10.717 0.911 2.119" rotation="58.49899088285704 -90.52733163067008 -0.2291831180523293"></a-box>
+      <a-box color="blue" height="8.5" position="7.391 -3.745 -11.699" scale="10.717 0.911 2.119" rotation="58.49899088285704 0 -0.2291831180523293"></a-box>
+      <a-box color="blue" height="8.5" position="14.394 -3.745 -18.836" scale="10.717 0.911 2.119" rotation="58.49899088285704 90.92840208726165 -0.2291831180523293"></a-box>       
+      <!-- diagonal alta -->
+      <a-box color="red" height="8.5" position="14.296 9.369 -18.1" scale="10.717 0.911 2.119" rotation="-50.76406064859094 89.66789493797383 0.4583662361046586"></a-box>
+      <a-box color="red" height="8.5" position="8.061 9.369 -12.076" scale="10.717 0.911 2.119" rotation="-50.76406064859094 -0.5729577951308232 0.4583662361046586"></a-box>
+      <a-box color="red" height="8.5" position="6.707 9.595 -25.527" scale="10.717 0.911 2.119" rotation="-50.76406064859094 179.5076772144869 0.4583662361046586"></a-box>
+      <a-box color="red" height="8.5" position="0.905 9.452 -17.755" scale="10.717 0.911 2.119" rotation="-50.76406064859094 -91.1002894258009 0.4583662361046586"></a-box>
+      <!-- estrutura 2 -->          
+      <!--  -->
+      <a-cylinder color="#1e788a" height="2" radius="2" segments-radial="6" open-ended="true" side="double" position="98.078 1.378 4.164" rotation="0 0 90.012" scale="1.207 2.55 1.116"></a-cylinder>
+      <a-box color="green" height="8.5" position="98.957 2.98 -0.977" scale="5.818 0.911 2.119" rotation="0.917 90.012 0.172"></a-box>
+      <a-box color="red" height="8.5" position="100.696 3.002 -4.135" scale="4.715 0.911 2.119" rotation="0.917 58.614 0.172"></a-box>
+      <a-box color="green" height="8.5" position="115.557 3.006 4.405" scale="10.717 0.911 2.119" rotation="0.917 89.782 0.172"></a-box>
+      <a-box color="red" height="8.5" position="113.291 3.002 -3.411" scale="7.239 0.911 2.119" rotation="0.9167324722093172 129.48846169956605 0.17188733853924698"></a-box>
+      <a-box color="green" height="8.5" position="106.29 2.98 -5.742" scale="10.717 0.911 2.119" rotation="0.9167324722093172 0.17188733853924698 0.17188733853924698"></a-box>
+      <a-box color="red" height="8.5" position="113.498 3.083 11.073" scale="7.239 0.911 2.119" rotation="0.917 -138.369 0.172"></a-box>
+      <a-box color="green" height="8.5" position="106.065 3.131 12.868" scale="10.717 0.911 2.119" rotation="0.9167324722093172 0.17188733853924698 0.17188733853924698"></a-box>
+      <a-box color="red" height="8.5" position="100.393 3.002 11.47" scale="4.715 0.911 2.119" rotation="0.917 -58.614 0.172"></a-box>
+      <a-box color="green" height="8.5" position="99.208 2.98 9.271" scale="5.818 0.911 2.554" rotation="0.6302535746439055 90.01166961505233 0.17188733853924698"></a-box>
+      <a-cylinder color="#1e788a" height="2" radius="2" segments-radial="6" open-ended="true" side="double" position="108.675 10.769 4.164" rotation="0 -90.012 179.508" scale="1.588 2.902 1.529"></a-cylinder>
+      <a-cylinder color="#1e788a" height="2" radius="2" segments-radial="6" open-ended="true" side="double" position="108.675 -5.793 4.164" rotation="0 -90.01166961505233 179.5076772144869" scale="2.006 2.418 1.717"></a-cylinder>
+      <a-box color="red" height="8.5" position="99.254 5.699 4.164" scale="5.818 0.479 2.119" rotation="0 90 0"></a-box>
+     <!-- diagonal baixa -->
+     <a-box color="red" height="8.5" position="99.254 -2.767 4.164" scale="5.818 0.479 2.119" rotation="0 90 0"></a-box> 
+     <a-box color="blue" height="8.5" position="99.254 -3.745 4.405" scale="10.717 0.911 2.119" rotation="58.499 -90.527 -0.229"></a-box>
+     <a-box color="blue" height="8.5" position="106.065 -3.745 12.868" scale="10.717 0.911 2.119" rotation="58.49899088285704 0 -0.2291831180523293"></a-box>
+     <a-box color="blue" height="8.5" position="113.064 -3.745 4.405" scale="10.717 0.911 2.119" rotation="58.49899088285704 90.92840208726165 -0.2291831180523293"></a-box>
+     <a-box color="blue" height="8.5" position="106.29 -3.745 -3.215" scale="10.717 0.911 2.119" rotation="58.499 179.909 -0.229"></a-box>
+     <!-- diagonal alta -->
+     <a-box color="red" height="8.5" position="113.071 9.369 4.405" scale="10.717 0.911 2.119" rotation="-50.764 89.668 0.458"></a-box>
+     <a-box color="red" height="8.5" position="106.065 9.369 11.575" scale="10.717 0.911 2.119" rotation="-50.76406064859094 -0.5729577951308232 0.4583662361046586"></a-box>
+     <a-box color="red" height="8.5" position="106.29 9.595 -3.215" scale="10.717 0.911 2.119" rotation="-50.76406064859094 179.5076772144869 0.4583662361046586"></a-box>
+     <a-box color="red" height="8.5" position="99.003 9.452 4.405" scale="10.717 0.911 2.119" rotation="-50.76406064859094 -91.1002894258009 0.4583662361046586"></a-box>
+    </a-scene>
+    
   <script>
     // On mobile remove elements that are resource heavy
     var isMobile = AFRAME.utils.device.isMobile();
