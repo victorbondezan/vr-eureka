@@ -14,7 +14,8 @@
   <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
   <script src="https://unpkg.com/aframe-animation-component@4.0.0/dist/aframe-animation-component.min.js"></script>
   <script src="/public/img/aframe-stereo-component.min.js"></script>
-  
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
   <script src="https://unpkg.com/networked-aframe@^0.7.1/dist/networked-aframe.min.js"></script>
 
@@ -70,6 +71,8 @@
       <a-asset-item id="lobim-textura-juba-fur2" src="/public/gltf-do-lobinho/Fur_2.png"></a-asset-item>
       <a-asset-item id="lobim-textura-juba-fur-alpha" src="/public/gltf-do-lobinho/Fur_Alpha_3.png"></a-asset-item>
       <a-asset-item id="lobim-2" src="/public/gltf-do-lobinho/Wolf-Blender-2.82a.glb"></a-asset-item>   
+      <img id="olhando" src="/public/img/2D/ta-olhando-o-que.jpeg"/>
+      <img id="o-que" src="/public/img/2D/papa.jpeg"/>
       <!-- Templates -->
       <!-- Avatar -->
       <template id="avatar-template">
@@ -89,20 +92,40 @@
     </a-assets>
     <a-entity 
       id="player" 
-      user-height="5"
-      camera
+      user-height="1.6"
+      
       networked="template:#avatar-template;attachTemplateToLocal:false;" 
-      position="0 1.6 0"
+      camera
       spawn-in-circle="radius:3" 
       wasd-controls 
-      look-controls>
+      look-controls
+      progressive-controls>
       <a-sphere class="head" visible="false" random-color></a-sphere>
-      
     </a-entity>
+    
+      <a-entity
+          cursor="fuse: true; fuseTimeout: 1500" 
+          position= "0 0 0" 
+          scale="1.7 3 1.7" 
+          geometry="primitive: sphere; radius: 0.015" 
+          material="color: red; shader: flat; opacity: 0.5">
+          <a-cursor raycaster="objects: .ui"></a-cursor>
+          <a-animation
+            attribute="scale"
+            to="3.5 6 3.5"
+            dur="1500"
+            begin="cursor-fusing"
+            fill="backwards"
+            easing="linear">
+          </a-animation>
+        </a-entity>
+
+    
     <!-- 
       <a-entity position="0 0 0"
         geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0" 
         material="src: #woodfloor; repeat: 10000 10000; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity> -->
+    <!-- Aula 23 chao necessario para o exercicio  (linha 549) -->
     <a-plane
       material= 
         "color:#ffffff;
@@ -113,28 +136,22 @@
         roughness:#castle-groud-rough" 
       rotation="-90 0 0" 
       scale="10 10 1"
-      position="11 0 0">
+      position="8.638 0 0"
+      static-body>
     </a-plane>
     <a-entity light="color: #ccccff; intensity: 1; type: ambient;" visible=""></a-entity>
     <a-entity light="color: #ffaaff; intensity: 1.5" position="5 5 5"></a-entity>
     <a-sky src="#sky" rotation="0 -90 0"></a-sky>
     <a-entity id="particles" particle-system="preset: snow"></a-entity>
     <!-- Box 2:1 Panel | Parent Entity -->
-    <a-box 
-      color="#689F38"
-      side="double"
-      width="4"
-      height="2"
-      depth="0.2"
-      position="-2 2 -7" 
-      rotation="0 0 0"
-      scale="-1.3 2.3 1"
-    >
-      <!-- Circulo Cinza -->
-      <a-cylinder color="#333333" side="double" position="1 0.4 1" rotation="90 0 0" scale="0.5 1 12"></a-cylinder>
+    <a-box color="#689F38" side="double" width="4" height="2" depth="0.2" position="2.43965 3.82249 -8.06468" scale="-0.47184 1.73398 1">
+      <a-cylinder color="#333333" side="double" position="-0.09329 0.51187 0.5897" rotation="90 0 0" scale="0.14504 1 0.03595"></a-cylinder>
+      <a-cylinder color="#333333" side="double" position="-0.09329 -0.55392 0.5897" rotation="90 0 0" scale="0.14504 1 0.03595"></a-cylinder>
+      <a-cylinder color="#333333" side="double" position="-0.09329 -0.03328 0.5897" rotation="0.24465297852086154 0 0" scale="0.14504 1.12293 0.03595"></a-cylinder>
+      <a-cylinder color="#333333" side="double" position="-0.09329 -0.03155 1.10542" rotation="90 0 0" scale="2.23606 0.14952 0.65438"></a-cylinder>
     </a-box>
     <!-- Circulo Amarelo -->
-    <a-circle color="#FFC107" side="double" position="-1 1 -6" scale="1 1 1"></a-circle>
+    <a-circle color="#FFC107" side="double" position="0.36652 3.85604 -8.21491" scale="1 1 1.61714"></a-circle>
     <!-- Cilindro cinzento -->
     <a-cylinder 
       color="#1e788a"
@@ -157,15 +174,15 @@
       <a-animation attribute="material.color" from="#8a1e74" to="#5429ab" repeat="indefinite" dur="5000" direction="alternate" easing="ease-out"></a-animation>
       <a-animation attribute="material.opacity" from="1" to="0.5" repeat="indefinite" dur="5000" direction="alternate" easing="ease-out"></a-animation>
     </a-box>
-    <!-- interections cursor - click, mouseenter, mouseleave, mousedown, mouseup, fusing -->
+    <!-- Aula 17 -interections cursor - click, mouseenter, mouseleave, mousedown, mouseup, fusing -->
     <!-- cursor simples, fuse true.. -->
-      <a-camera stereocam="eye: right">
-          <a-entity
-            cursor="fuse: false; fuseTimeout: 1500" 
-            cursor position= "0 0 -1" 
-            scale="1.7 3 1.7" 
-            geometry="primitive: sphere; radius: 0.015" 
-            material="color: red; shader: flat; opacity: 0.5">
+      <!-- <a-camera stereocam="eye: right">
+        <a-entity
+          cursor="fuse: false; fuseTimeout: 1500" 
+          cursor position= "0 0 -1" 
+          scale="1.7 3 1.7" 
+          geometry="primitive: sphere; radius: 0.015" 
+          material="color: red; shader: flat; opacity: 0.5">
           <a-cursor raycaster="objects: .ui"></a-cursor>
           <a-animation
             attribute="scale"
@@ -175,8 +192,8 @@
             fill="backwards"
             easing="linear">
           </a-animation>
-        </a-cursor>
-      </a-camera>
+        </a-entity>
+      </a-camera> -->
       <!-- Aula 14 - animando objetos (167 a 176 e 139 a 147) -->
       <!-- bola azul -->
       <a-sphere color="#2c43f5" src="#earth" width="4" height="4" depth="4" position="-20 5 0">
@@ -187,7 +204,7 @@
         <a-animation attribute="rotation" to="0 -360 0" repeat="indefinite" dur="5000" easing="linear"></a-animation>
         <a-sphere color="#11d184" src="#moon" position="2 0 0"></a-sphere>
       </a-entity>
-      <!-- aula 18 Event-Set Component (176 a 238)-->
+      <!-- aula 18 Event-Set Component, 6 quadrados e seus efeitos (176 a 238)-->
       <!-- big box center -->
       <a-box
         id="big-box-center" 
@@ -251,7 +268,7 @@
         event-set__tarcol="_event: click; _target: #big-right-box; material.color:#3fe2e8">
       </a-box>
       <!-- Aula 21 - Controles baseados em interações (241 a 278) -->
-      <a-entity progressive-controls></a-entity>
+      <!-- <a-entity progressive-controls></a-entity> -->
       <!-- console box -->
       <a-box
         id="screen"
@@ -372,13 +389,13 @@
         position="8 5.5 -22"
         scale="80 80 80">
       </a-entity>
-      <!-- aula 11 Sky e 360 (367 a 372) -->
+      <!-- Aula 11 Sky e 360 (367 a 372) -->
       <!-- Little Planet drawn -->
       <a-sky src="#drawn-sky-2" radius="8" side="double" position="86.972 0 -91.484"></a-sky>
       <a-plane src="#sun" position="87.285 0 -92.833" scale="20 20 1" rotation="-90 0 0"></a-plane>      
       <!-- Little Panorama -->
       <a-sky src="#panorama" radius="20" side="double" position="0 0 -142.872"></a-sky>
-      <!-- aula 25 add videos -->
+      <!-- Aula 25 - add videos -->
       <!-- video ryu x ken -->
       <a-video src="#meh" width="4" height="2.5" position="-0.832 2.658 -18.630" scale="1.195 1.114 1.000" rotation="0 90 0">
           <!-- play-pause -->
@@ -388,10 +405,10 @@
         <!-- <a-image id="videoControls" src="#play1" position="0 -3 0" scale="0.5 0.5 1" play1-pause1></a-image>  -->
       </a-video>
       <!-- video aula 27 implanting Stereoscopic images (nos screepts tem uma tag "img/aframe-stereo-component.min.js")  -->
-      <a-image src="#red-left" position="14 1.5 0" height="0.75"></a-image> stereo="eye: left"
+      <a-image src="#red-left" position="14 1.5 0" height="0.75"  stereo="eye: left"></a-image>
       <a-image src="#blue-right" position="14 1.5 0" height="0.75" stereo="eye: right"></a-image>
       <!-- Video aula 24 reprodusindo e posicionando música  -->
-      <!-- music player -->
+      <!-- purple music player -->
       <a-box
         color="#8a1e74"
         height="1.5"
@@ -429,7 +446,7 @@
       <!-- Aula 13 - colocando objetos 3D dentro do ambiente virtual () -->
       <a-entity 
         gltf-model="#lobim"
-        position="19.098 0.268 -1.151"
+        position="28 0.268 -1.151"
         src="#lobim-textura"
         materia=
           "normal-map:#lobim-textura-juba;
@@ -490,28 +507,30 @@
         class="ui"
         scale="0.5 0.07 0.5"
         rotation="0.9167324722093172 134.93442554228452 0.17188733853924698"
+        event-set__enter="event: mouseenter; material.color: red"
         animation__enter=
-          "property: material.color; 
-          from: #e03f1f; 
-          to: #e0bd1f;
-          startEvents: mouseenter;
-          dur: 250;
-          easing: linear"
+        "property: material.color; 
+        from: #e03f1f; 
+        to: #e0bd1f;
+        startEvents: mouseenter;
+        dur: 250;
+        easing: linear"
         animation__leave=
-          "property: material.color; 
-          from: #e0bd1f; 
-          to: #e03f1f;
-          startEvents: mouseleave;
-          dur: 250;
-          easing: linear"
+        "property: material.color; 
+        from: #e0bd1f; 
+        to: #e03f1f;
+        startEvents: mouseleave;
+        dur: 250;
+        easing: linear"
         event-set__scale=
-          "_target:#blue2;
-           _evente: click
-          animation.property:scale;
-          animation.to: 5 2 0.1;
-          animation.easing: easeInOutBack;
-          animation.dur: 1000"
-        event-set__position="_target:#gray2; _event:click; animation.property: position; animation.to: 2.379 5.26 -25.122">
+        "_target:#blue2;
+        _event: click;
+        animation.property:scale;
+        animation.to: 5 2 0.1;
+        animation.easing: easeInOutBack;
+        animation.dur: 1000"
+        event-set__position="_target:#gray2; _event:click; animation.property: position; animation.to: 2.379 5.26 -25.122"
+        event-set__leave="event: mouseleave; material.color: green">
       </a-box>
       <!-- Hidden Button  -->
       <a-box
@@ -546,13 +565,96 @@
           easing: linear"
         event-set__scale=
           "_target:#blue2;
-          _evente: click
-          animation.to: ;
+          _event: click;
+          animation.property:scale;
+          animation.to: 0.75 0.5 0.75;
           animation.easing: easeInOutBack;
           animation.dur: 250"
         event-set__position="_event:click; animation.to: ;animation.dur: 1500">
+      </a-plane> 
+      <!-- Aula 23 - colisões -->
+      <a-entity progressive-controls position="0 0 5"></a-entity>
+      <a-sphere
+        color="purple"
+        radius="0.5"
+        position="8.86969 4 -2.23371"
+        grabbable dynamic-body="linearDamping: 0.05; angularDamping: 0.3; mass:1">
+      </a-sphere>    
+      <a-sphere
+        color="blue"
+        radius="0.5"
+        position="10 4 1"
+        grabbable dynamic-body="linearDamping: 0.5; angularDamping: 0.3; mass:10">
+      </a-sphere>
+      <!-- green box -->
+      <a-box
+        color="green"
+        height="8.5"
+        position="5.62129 0.000001 0.410"
+        scale="1.58332 0.09327 1.00793"
+        rotation="0.917 0.172 0.172"
+        dynamic-body="shape: sphere; sphereRadius:1"
+        event-set__color="_event: collide, material.color: blue">
+        <a-animation attribute="rotation" to="0 360 0" repeat="indefinite" dur="3000">
+      </a-box>
+      <!-- red box -->
+      <a-box 
+        color="#689F38"
+        side="double"
+        width="4"
+        height="2"
+        depth="0.2"
+        position="4.94891 0.5 2.59527"
+        scale="0.25219 0.59675 4.00667">
+        <a-box color="red" opacity="0.6" side="double" position="-0.09329 0.24397 0.02833" static-body rotation="90 0 0" scale="8 0.3 -3.5" material="" geometry=""></a-box>
+      </a-box>
+      <!-- aula 32 escriçoes que se posicionam para o cursor -->
+      <!-- camera rig -->
+      <!-- floor 2 -->
+      <a-plane 
+        material=
+          "color:#ffffff;
+          src:#Wall-light-brow;
+          repeat:5 5" 
+        rotation="-90 0 0" 
+        scale="10 10 1" position="18.96933 0 -3.82184" 
+        shader="flat">
       </a-plane>
-      <!-- Aula 15 - aprendendo a usar a-frame inspector, game maker do a-frame -->
+      <!-- Cursor cam2 -->
+      <!-- <a-entity position="16 0 0" rotation="0 -36 0">
+        <a-camera id="cam2">
+          <a-cursor></a-cursor>
+        </a-camera>
+      </a-entity> -->
+      <!-- blue box -->
+      <a-box 
+        id="bluerotation" 
+        color="#00AAFF" 
+        position="16 0.5 -6"
+        animation=
+          "property:position;
+          to: 16 0.5 6;
+          dir: alternate;
+          easing: linear;
+          loop= true;
+          dur: 6000">
+        <!-- image -->
+        <a-image src="o-que" position="0 1.5 0" height="0.75" look-at="#cam2"></a-image>
+      </a-box>
+      <!-- yellow box -->
+      <a-box color="#FFAA00" position="20 0.5 -6" look-at="#bluerotation">
+        <!-- text -->
+        <a-entity
+          position="0 1.5 0" 
+          look-at="#cam2"
+          text="value: nao olhe pra cima; #212121; align: center; wrapCount: 9"
+          geometry="primitive: plane; width: auto; height: 0.5"
+          material="color: #FFAA00; shader: flat; Visible: true">
+        </a-entity>  
+      </a-box>
+      
+
+      <!-- Aula 16 - aprendendo a usar a-frame inspector, game maker do a-frame -->
       <!-- estrutura -->
       <a-box
         color="red"
